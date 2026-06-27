@@ -1,0 +1,2720 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <!-- ================================================================
+       AbdulFashion — Landing Page
+       Kelompok 3 | PBWD: CSS Responsive & Bootstrap
+       Demonstrasi: Bootstrap 5 Grid + Custom CSS Media Query
+       ================================================================ -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AbdulFashion — UMKM Fashion Modern. Kaos premium, hoodie, jaket, dan streetwear berkualitas untuk tampil percaya diri setiap hari."
+    />
+    <title>AbdulFashion — Fashion Modern UMKM</title>
+
+    <!-- ── Google Fonts ──────────────────────────────────────────────
+       Cormorant Garamond : Display font serif elegan untuk headline
+       Poppins            : Body font sans-serif modern & clean
+       rel="preconnect" mempercepat koneksi ke server font          -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Bootstrap 5 CSS (via CDN) ─────────────────────────────────
+       Sebagai pondasi utama layout dan komponen UI               -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+
+    <!-- ── Font Awesome 6 (via CDN) ──────────────────────────────────
+       Library icon yang kaya untuk navbar, card, footer, dsb.    -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- ================================================================
+       ██████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ███╗     ██████╗███████╗███████╗
+       ██╔════╝██║   ██║██╔════╝╚══██╔══╝██╔═══██╗████╗ ████║    ██╔════╝██╔════╝██╔════╝
+       ██║     ██║   ██║███████╗   ██║   ██║   ██║██╔████╔██║    ██║     ███████╗███████╗
+       ██║     ██║   ██║╚════██║   ██║   ██║   ██║██║╚██╔╝██║    ██║     ╚════██║╚════██║
+       ╚██████╗╚██████╔╝███████║   ██║   ╚██████╔╝██║ ╚═╝ ██║    ╚██████╗███████║███████║
+       ================================================================
+       Semua CSS custom ditulis di dalam tag <style> ini.
+       Pendekatan: Bootstrap sebagai pondasi → Custom CSS sebagai
+       lapisan personalisasi brand + penyesuaian responsive manual.
+       ================================================================ -->
+    <style>
+      /* ================================================================
+       1. CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+       ────────────────────────────────────────────────────────────────
+       Mendefinisikan warna, font, dan spacing sebagai variabel CSS.
+       Keuntungan: Mengubah 1 nilai di sini otomatis memperbarui
+       seluruh tampilan halaman → konsistensi brand terjaga.
+       ================================================================ */
+      :root {
+        /* Palet Warna AbdulFashion */
+        --af-white: #ffffff;
+        --af-warm-white: #faf8f4; /* Warm white — latar section selang-seling */
+        --af-cream: #f0e8dc; /* Cream — card bg & aksen area */
+        --af-border: #ede7dd; /* Garis border subtle */
+        --af-gold: #c9a84c; /* Soft Gold — warna aksen utama brand    */
+        --af-gold-dark: #9e7e2e; /* Deep Gold — hover states               */
+        --af-gold-light: rgba(
+          201,
+          168,
+          76,
+          0.12
+        ); /* Gold transparan          */
+        --af-heading: #1a1a1a; /* Almost black — semua heading            */
+        --af-body: #5a5a5a; /* Dark gray — teks body                   */
+        --af-muted: #9a9a9a; /* Medium gray — caption & teks sekunder   */
+        --af-footer-bg: #141414; /* Near black — background footer           */
+
+        /* Tipografi */
+        --font-display: "Cormorant Garamond", Georgia, serif;
+        --font-body: "Poppins", system-ui, sans-serif;
+
+        /* Spacing & Transisi */
+        --section-py: 90px; /* Padding vertikal default setiap section */
+        --transition: 0.35s ease;
+        --radius: 4px; /* Border radius — sharp corners (premium) */
+      }
+
+      /* ================================================================
+       2. RESET & BASE STYLES
+       ════════════════════════════════════════════════════════════════ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        /* smooth scroll via CSS — aktif di semua browser modern */
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background-color: var(--af-white);
+        color: var(--af-body);
+        font-size: 1rem;
+        line-height: 1.7;
+        overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      /* ================================================================
+       3. UTILITY / HELPER CLASSES
+       ════════════════════════════════════════════════════════════════ */
+
+      /* Label kecil di atas judul section — aksent emas */
+      .eyebrow {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--af-gold);
+        margin-bottom: 10px;
+      }
+
+      /* Judul utama setiap section — font serif elegan */
+      .section-title {
+        font-family: var(--font-display);
+        font-size: 2.6rem;
+        font-weight: 700;
+        color: var(--af-heading);
+        line-height: 1.15;
+        margin-bottom: 12px;
+      }
+
+      /* Deskripsi pendek di bawah judul section */
+      .section-desc {
+        font-size: 0.95rem;
+        color: var(--af-body);
+        line-height: 1.85;
+        max-width: 540px;
+        margin: 0 auto 2.5rem;
+      }
+
+      /* Garis emas pendek di bawah judul — signature visual brand */
+      .gold-bar {
+        display: block;
+        width: 44px;
+        height: 2px;
+        background: var(--af-gold);
+        margin: 14px 0 22px;
+      }
+      .gold-bar.mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* ================================================================
+       4. BUTTON STYLES
+       ════════════════════════════════════════════════════════════════
+       Override Bootstrap .btn untuk tampilan premium AbdulFashion.
+       Dua varian: solid emas dan outline emas.                      */
+
+      .btn-af-solid {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--af-gold);
+        color: #fff !important;
+        border: 2px solid var(--af-gold);
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 13px 30px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition:
+          background-color var(--transition),
+          border-color var(--transition),
+          transform var(--transition),
+          box-shadow var(--transition);
+      }
+      .btn-af-solid:hover {
+        background-color: var(--af-gold-dark);
+        border-color: var(--af-gold-dark);
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(201, 168, 76, 0.35);
+      }
+
+      .btn-af-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: transparent;
+        color: var(--af-gold) !important;
+        border: 2px solid var(--af-gold);
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 13px 30px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition:
+          background-color var(--transition),
+          color var(--transition),
+          transform var(--transition),
+          box-shadow var(--transition);
+      }
+      .btn-af-outline:hover {
+        background-color: var(--af-gold);
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(201, 168, 76, 0.35);
+      }
+
+      /* ================================================================
+       5. NAVBAR
+       ════════════════════════════════════════════════════════════════
+       Bootstrap .navbar sebagai pondasi, di-override di bawah ini.
+       Efek backdrop-blur + shadow ditambahkan via JavaScript         */
+
+      #mainNavbar {
+        background-color: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--af-border);
+        padding-top: 16px;
+        padding-bottom: 16px;
+        transition:
+          padding var(--transition),
+          box-shadow var(--transition);
+      }
+      /* Class ini ditambahkan oleh JS saat user mulai scroll */
+      #mainNavbar.is-scrolled {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+      }
+
+      /* Logo / Brand Name */
+      .af-brand {
+        font-family: var(--font-display);
+        font-size: 1.65rem;
+        font-weight: 700;
+        color: var(--af-heading);
+        letter-spacing: 0.01em;
+        transition: color var(--transition);
+      }
+      .af-brand:hover {
+        color: var(--af-heading);
+      }
+      .af-brand span {
+        color: var(--af-gold);
+      }
+
+      /* Menu Items */
+      .af-nav-link {
+        font-size: 0.76rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--af-body) !important;
+        padding: 6px 12px !important;
+        position: relative;
+        transition: color var(--transition);
+      }
+      /* Animasi underline emas saat hover / active */
+      .af-nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 12px;
+        right: 12px;
+        height: 1.5px;
+        background: var(--af-gold);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform var(--transition);
+      }
+      .af-nav-link:hover,
+      .af-nav-link.is-active {
+        color: var(--af-gold) !important;
+      }
+      .af-nav-link:hover::after,
+      .af-nav-link.is-active::after {
+        transform: scaleX(1);
+      }
+
+      /* Hamburger toggler — hilangkan outline default Bootstrap */
+      .navbar-toggler:focus {
+        box-shadow: none;
+      }
+      .navbar-toggler {
+        border: none;
+        padding: 4px;
+      }
+
+      /* ================================================================
+       6. HERO SECTION
+       ════════════════════════════════════════════════════════════════ */
+
+      #hero {
+        background-color: var(--af-warm-white);
+        padding: 130px 0 90px; /* 130px top untuk clearance navbar sticky */
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Dekorasi lingkaran abstrak di sudut kanan-atas */
+      #hero::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 460px;
+        height: 460px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(201, 168, 76, 0.09) 0%,
+          transparent 68%
+        );
+        pointer-events: none;
+      }
+
+      /* Label kecil paling atas hero */
+      .hero-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--af-gold);
+        margin-bottom: 20px;
+      }
+
+      /* Judul hero — font serif besar, kesan premium fashion house */
+      .hero-headline {
+        font-family: var(--font-display);
+        font-size: 4.8rem;
+        font-weight: 700;
+        color: var(--af-heading);
+        line-height: 1.06;
+        margin-bottom: 22px;
+      }
+      /* Kata kursif berwarna emas — signature visual hero */
+      .hero-headline em {
+        font-style: italic;
+        color: var(--af-gold);
+      }
+
+      .hero-desc {
+        font-size: 0.97rem;
+        color: var(--af-body);
+        line-height: 1.85;
+        max-width: 460px;
+        margin-bottom: 36px;
+      }
+
+      /* Statistik mini di bawah tombol CTA */
+      .hero-stats {
+        display: flex;
+        gap: 28px;
+        padding-top: 32px;
+        margin-top: 36px;
+        border-top: 1px solid var(--af-border);
+      }
+      .hero-stat-val {
+        font-family: var(--font-display);
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--af-heading);
+        line-height: 1;
+      }
+      .hero-stat-lbl {
+        font-size: 0.73rem;
+        font-weight: 500;
+        color: var(--af-muted);
+        margin-top: 4px;
+      }
+
+      /* Wrapper gambar hero */
+      .hero-img-wrap {
+        position: relative;
+      }
+      .hero-img-wrap img {
+        width: 100%;
+        height: 580px;
+        object-fit: cover;
+        object-position: top center;
+        border-radius: var(--radius);
+      }
+      /* Ornamen frame emas di pojok kiri-bawah gambar */
+      .hero-img-wrap::before {
+        content: "";
+        position: absolute;
+        bottom: -18px;
+        left: -18px;
+        width: 72px;
+        height: 72px;
+        border-left: 2.5px solid var(--af-gold);
+        border-bottom: 2.5px solid var(--af-gold);
+        border-radius: 0 0 0 var(--radius);
+        z-index: 1;
+      }
+      /* Badge angka mengambang di atas gambar */
+      .hero-float-card {
+        position: absolute;
+        bottom: 32px;
+        right: -22px;
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 14px 20px;
+        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+      }
+      .hero-float-card .fc-val {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--af-heading);
+        line-height: 1;
+      }
+      .hero-float-card .fc-lbl {
+        font-size: 0.68rem;
+        color: var(--af-muted);
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        margin-top: 3px;
+      }
+
+      /* Dot pulsing animasi — indikator "new arrival" */
+      .dot-pulse {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--af-gold);
+        margin-right: 8px;
+        animation: dotPulse 2s ease-in-out infinite;
+      }
+      @keyframes dotPulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.45;
+          transform: scale(0.7);
+        }
+      }
+
+      /* ================================================================
+       7. ABOUT SECTION
+       ════════════════════════════════════════════════════════════════ */
+
+      #about {
+        padding: var(--section-py) 0;
+        background-color: var(--af-white);
+      }
+
+      /* Wrapper gambar — dengan efek border emas offset di belakang */
+      .about-img-wrap {
+        position: relative;
+      }
+      .about-img-wrap img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: var(--radius);
+        position: relative;
+        z-index: 1;
+      }
+      /* Kotak border emas di belakang gambar — efek frame artistik */
+      .about-img-wrap::after {
+        content: "";
+        position: absolute;
+        top: 22px;
+        left: 22px;
+        right: -22px;
+        bottom: -22px;
+        border: 2px solid var(--af-gold);
+        border-radius: var(--radius);
+        z-index: 0;
+      }
+
+      /* Feature item dengan icon bulat emas */
+      .af-feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 22px;
+      }
+      .af-feature-icon {
+        flex-shrink: 0;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--af-gold-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--af-gold);
+        font-size: 0.95rem;
+      }
+      .af-feature h6 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--af-heading);
+        margin-bottom: 3px;
+      }
+      .af-feature p {
+        font-size: 0.83rem;
+        color: var(--af-body);
+        margin: 0;
+        line-height: 1.65;
+      }
+
+      /* ================================================================
+       8. PRODUCTS SECTION
+       ════════════════════════════════════════════════════════════════
+       Bootstrap Grid: col-lg-4 col-md-6 col-12
+       → 3 kolom (desktop) | 2 kolom (tablet) | 1 kolom (mobile)   */
+
+      #products {
+        padding: var(--section-py) 0;
+        background-color: var(--af-warm-white);
+      }
+
+      /* Product Card — override Bootstrap .card */
+      .product-card {
+        background: var(--af-white);
+        border: 1px solid var(--af-border);
+        border-radius: var(--radius);
+        overflow: hidden; /* Penting: mengurung efek hover gambar          */
+        transition:
+          transform var(--transition),
+          box-shadow var(--transition);
+        height: 100%;
+      }
+      /* HOVER EFFECT: Card terangkat dan mendapat shadow dalam */
+      .product-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.09);
+      }
+
+      /* Wrapper gambar produk — overflow:hidden untuk efek zoom */
+      .pc-img {
+        position: relative;
+        overflow: hidden;
+        height: 280px;
+      }
+      .pc-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.55s ease; /* Efek zoom halus saat card di-hover */
+      }
+      /* Gambar membesar saat card di-hover */
+      .product-card:hover .pc-img img {
+        transform: scale(1.08);
+      }
+
+      /* Badge label (Best Seller, New, Sale) */
+      .pc-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--af-gold);
+        color: #fff;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 2px;
+        z-index: 1;
+      }
+      .pc-badge.new-arrival {
+        background: var(--af-heading);
+      }
+      .pc-badge.on-sale {
+        background: #c0392b;
+      }
+
+      /* Isi card bawah gambar */
+      .pc-body {
+        padding: 20px 22px 22px;
+      }
+      .pc-cat {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--af-gold);
+        margin-bottom: 6px;
+      }
+      .pc-name {
+        font-family: var(--font-display);
+        font-size: 1.18rem;
+        font-weight: 600;
+        color: var(--af-heading);
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .pc-price {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--af-gold-dark);
+        margin-bottom: 16px;
+      }
+      .pc-price s {
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--af-muted);
+        margin-left: 6px;
+      }
+
+      /* ================================================================
+       9. COLLECTION / GALLERY SECTION
+       ════════════════════════════════════════════════════════════════
+       CSS Grid kustom (bukan Bootstrap) — mendemonstrasikan bahwa
+       CSS Grid native bisa dikombinasikan dengan Bootstrap.
+       Hover effect: zoom gambar + overlay transparan muncul.         */
+
+      #collection {
+        padding: var(--section-py) 0;
+        background-color: var(--af-white);
+      }
+
+      /* Grid 3 kolom × 2 baris dengan item pertama span 2 baris */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: 260px 260px;
+        gap: 10px;
+      }
+      .gallery-item:first-child {
+        grid-row: span 2; /* Item pertama lebih besar — featured look */
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden; /* Kunci efek zoom terkurung */
+        border-radius: var(--radius);
+        cursor: pointer;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease; /* Zoom halus */
+      }
+      /* HOVER EFFECT: Gambar zoom + overlay gelap + icon muncul */
+      .gallery-item:hover img {
+        transform: scale(1.09);
+      }
+      .gallery-overlay {
+        position: absolute;
+        inset: 0; /* Shorthand: top:0; right:0; bottom:0; left:0 */
+        background: rgba(20, 20, 20, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity var(--transition);
+      }
+      .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+      }
+      .gallery-overlay-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1rem;
+        transform: scale(0.65);
+        transition: transform var(--transition);
+      }
+      .gallery-item:hover .gallery-overlay-icon {
+        transform: scale(1);
+      }
+
+      /* ================================================================
+       10. TESTIMONIALS SECTION
+       ════════════════════════════════════════════════════════════════ */
+
+      #testimonials {
+        padding: var(--section-py) 0;
+        background-color: var(--af-warm-white);
+      }
+
+      .testi-card {
+        background: var(--af-white);
+        border: 1px solid var(--af-border);
+        border-radius: var(--radius);
+        padding: 30px 26px 26px;
+        height: 100%;
+        position: relative;
+        transition: box-shadow var(--transition);
+      }
+      .testi-card:hover {
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+      }
+      /* Tanda kutip dekoratif di belakang teks */
+      .testi-card::before {
+        content: "\201C"; /* Unicode untuk tanda kutip buka */
+        font-family: var(--font-display);
+        font-size: 6rem;
+        color: rgba(201, 168, 76, 0.13);
+        position: absolute;
+        top: 5px;
+        left: 16px;
+        line-height: 1;
+        pointer-events: none;
+      }
+      .testi-stars {
+        color: var(--af-gold);
+        font-size: 0.82rem;
+        margin-bottom: 14px;
+      }
+      .testi-text {
+        font-size: 0.88rem;
+        color: var(--af-body);
+        line-height: 1.85;
+        font-style: italic;
+        margin-bottom: 22px;
+      }
+      .testi-author {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .testi-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--af-gold);
+      }
+      .testi-name {
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: var(--af-heading);
+        margin: 0 0 2px;
+      }
+      .testi-loc {
+        font-size: 0.73rem;
+        color: var(--af-muted);
+        margin: 0;
+      }
+
+      /* Trust bar di bawah testimoni */
+      .trust-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        flex-wrap: wrap;
+        padding-top: 48px;
+        margin-top: 48px;
+        border-top: 1px solid var(--af-border);
+      }
+      .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 0.82rem;
+        color: var(--af-body);
+      }
+      .trust-item i {
+        color: var(--af-gold);
+        font-size: 1.05rem;
+      }
+
+      /* ================================================================
+       11. CONTACT SECTION
+       ════════════════════════════════════════════════════════════════ */
+
+      #contact {
+        padding: var(--section-py) 0;
+        background-color: var(--af-white);
+      }
+
+      /* Override Bootstrap form untuk kesan brand AbdulFashion */
+      .af-form .form-control,
+      .af-form textarea.form-control {
+        border: 1px solid var(--af-border);
+        border-radius: var(--radius);
+        padding: 12px 16px;
+        font-family: var(--font-body);
+        font-size: 0.88rem;
+        color: var(--af-heading);
+        background-color: var(--af-white);
+        transition:
+          border-color var(--transition),
+          box-shadow var(--transition);
+        resize: vertical;
+      }
+      /* Glow emas saat field difokus */
+      .af-form .form-control:focus,
+      .af-form textarea.form-control:focus {
+        border-color: var(--af-gold);
+        box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+        outline: none;
+      }
+      .af-form label {
+        font-size: 0.76rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--af-heading);
+        margin-bottom: 7px;
+      }
+
+      /* Info kontak di sisi kiri form */
+      .contact-info-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 26px;
+      }
+      .ci-icon {
+        flex-shrink: 0;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--af-gold-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--af-gold);
+        font-size: 0.95rem;
+      }
+      .ci-text h6 {
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: var(--af-heading);
+        margin-bottom: 3px;
+      }
+      .ci-text p {
+        font-size: 0.83rem;
+        color: var(--af-body);
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      /* Ikon sosial di section contact */
+      .contact-social a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1.5px solid var(--af-border);
+        color: var(--af-gold);
+        font-size: 0.95rem;
+        transition: all var(--transition);
+      }
+      .contact-social a:hover {
+        background: var(--af-gold);
+        border-color: var(--af-gold);
+        color: #fff;
+      }
+
+      /* ================================================================
+       12. FOOTER
+       ════════════════════════════════════════════════════════════════ */
+
+      #mainFooter {
+        background-color: var(--af-footer-bg);
+        color: rgba(255, 255, 255, 0.65);
+        padding: 72px 0 0;
+      }
+
+      .footer-brand {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 12px;
+      }
+      .footer-brand span {
+        color: var(--af-gold);
+      }
+
+      .footer-desc {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.85;
+        margin-bottom: 24px;
+      }
+
+      .footer-heading {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        margin-bottom: 18px;
+      }
+
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+      .footer-links a {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.58);
+        transition: color var(--transition);
+      }
+      .footer-links a:hover {
+        color: var(--af-gold);
+      }
+
+      .footer-social {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .footer-social a {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 0.82rem;
+        transition: all var(--transition);
+      }
+      .footer-social a:hover {
+        background: var(--af-gold);
+        border-color: var(--af-gold);
+        color: #fff;
+        transform: translateY(-2px);
+      }
+
+      .footer-info-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+      .footer-info-item i {
+        color: var(--af-gold);
+        font-size: 0.9rem;
+        width: 16px;
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+      .footer-info-item span {
+        font-size: 0.83rem;
+        color: rgba(255, 255, 255, 0.52);
+        line-height: 1.65;
+      }
+
+      .footer-bottom {
+        margin-top: 48px;
+        padding: 20px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .footer-bottom p {
+        font-size: 0.77rem;
+        color: rgba(255, 255, 255, 0.35);
+        margin: 0;
+      }
+      .footer-bottom strong {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* ================================================================
+       13. BACK TO TOP BUTTON
+       ════════════════════════════════════════════════════════════════
+       Tersembunyi secara default.
+       JavaScript menambahkan class .is-visible saat scroll > 400px  */
+
+      #backToTop {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        width: 44px;
+        height: 44px;
+        background: var(--af-gold);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(201, 168, 76, 0.4);
+        /* Default: tak terlihat dan tak bisa diklik */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(14px);
+        transition: all 0.4s ease;
+        z-index: 9999;
+      }
+      /* JS menambahkan class ini → tombol muncul dengan animasi */
+      #backToTop.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      #backToTop:hover {
+        background: var(--af-gold-dark);
+        transform: translateY(-3px);
+      }
+
+      /* ================================================================
+       14. SCROLL REVEAL ANIMATION
+       ════════════════════════════════════════════════════════════════
+       Elemen dengan class .reveal dimulai dari kondisi tak terlihat.
+       JavaScript (IntersectionObserver) menambahkan class .revealed
+       ketika elemen masuk ke viewport → animasi fade+slide muncul.  */
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+          opacity 0.75s ease,
+          transform 0.75s ease;
+      }
+      .reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Staggered delay untuk elemen dalam satu baris */
+      .reveal:nth-child(2) {
+        transition-delay: 0.12s;
+      }
+      .reveal:nth-child(3) {
+        transition-delay: 0.24s;
+      }
+      .reveal:nth-child(4) {
+        transition-delay: 0.1s;
+      }
+      .reveal:nth-child(5) {
+        transition-delay: 0.2s;
+      }
+      .reveal:nth-child(6) {
+        transition-delay: 0.3s;
+      }
+
+      /* ================================================================
+       ██████╗ ███████╗███████╗██████╗  ██████╗ ███╗   ██╗███████╗██╗██╗   ██╗███████╗
+       ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔═══██╗████╗  ██║██╔════╝██║██║   ██║██╔════╝
+       ██████╔╝█████╗  ███████╗██████╔╝██║   ██║██╔██╗ ██║███████╗██║██║   ██║█████╗
+       ██╔══██╗██╔══╝  ╚════██║██╔═══╝ ██║   ██║██║╚██╗██║╚════██║██║╚██╗ ██╔╝██╔══╝
+       ██║  ██║███████╗███████║██║     ╚██████╔╝██║ ╚████║███████║██║ ╚████╔╝ ███████╗
+       ================================================================
+
+       ════════════════════════════════════════════════════════════════
+       CUSTOM MEDIA QUERIES — RESPONSIVE DESIGN MANUAL
+       ════════════════════════════════════════════════════════════════
+       Ini adalah demonstrasi inti PBWD: mengatur layout secara
+       manual untuk berbagai ukuran layar menggunakan @media query.
+
+       Breakpoint yang digunakan:
+         ≤ 992px  → Tablet / Laptop kecil
+         ≤ 768px  → Tablet Portrait
+         ≤ 576px  → Mobile / Smartphone
+       ════════════════════════════════════════════════════════════════ */
+
+      /* ──────────────────────────────────────────────────────────────────
+       BREAKPOINT: TABLET & LAPTOP KECIL (max-width: 992px)
+       ────────────────────────────────────────────────────────────────── */
+      @media (max-width: 992px) {
+        /* HERO TEXT: Kecilkan font headline hero di layar tablet */
+        .hero-headline {
+          font-size: 3.5rem;
+        }
+
+        /* HERO: Kurangi padding atas (tidak perlu terlalu besar di tablet) */
+        #hero {
+          padding: 100px 0 70px;
+        }
+
+        /* HERO: Sembunyikan floating card agar tidak bentrok di layar sempit */
+        .hero-float-card {
+          display: none;
+        }
+
+        /* SECTION TITLE: Sedikit lebih kecil */
+        .section-title {
+          font-size: 2.25rem;
+        }
+
+        /* GALLERY: 2 kolom di tablet (dari 3 kolom di desktop) */
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: auto;
+          grid-auto-rows: 220px;
+        }
+        .gallery-item:first-child {
+          grid-row: span 1; /* Reset — tak perlu span 2 baris di 2-kolom */
+        }
+      } /* /end 992px */
+
+      /* ──────────────────────────────────────────────────────────────────
+       BREAKPOINT: TABLET PORTRAIT (max-width: 768px)
+       ────────────────────────────────────────────────────────────────── */
+      @media (max-width: 768px) {
+        /* HERO HEADLINE: Lebih kecil lagi di tablet portrait */
+        .hero-headline {
+          font-size: 2.75rem;
+        }
+
+        /* HERO DESCRIPTION: Font sedikit lebih kecil */
+        .hero-desc {
+          font-size: 0.9rem;
+        }
+
+        /* HERO IMAGE: Sesuaikan tinggi agar proporsional, tanpa stretching */
+        .hero-img-wrap img {
+          height: 360px;
+          object-position: top center; /* Pastikan wajah model tetap terlihat */
+        }
+
+        /* Sembunyikan ornamen frame emas di mobile (bisa overflow) */
+        .hero-img-wrap::before {
+          display: none;
+        }
+
+        /* HERO STATS: Lebih rapat di tablet */
+        .hero-stats {
+          gap: 18px;
+          margin-top: 28px;
+          padding-top: 22px;
+        }
+
+        /* NAVBAR BRAND: Logo sedikit mengecil di layar yang lebih sempit */
+        .af-brand {
+          font-size: 1.4rem;
+        }
+
+        /* SECTION PADDING: Kurangi padding atas-bawah setiap section
+         Dari var(--section-py) = 90px turun ke 60px di tablet        */
+        #about,
+        #products,
+        #collection,
+        #testimonials,
+        #contact {
+          padding: 60px 0;
+        }
+
+        /* ABOUT IMAGE: Hilangkan efek frame offset (bisa overflow di mobile) */
+        .about-img-wrap::after {
+          display: none;
+        }
+        .about-img-wrap img {
+          height: 300px;
+          margin-bottom: 36px; /* Jarak bawah sebelum teks about */
+        }
+
+        /* PRODUCT CARD IMAGE: Kurangi tinggi gambar produk di tablet */
+        .pc-img {
+          height: 220px;
+        }
+
+        /* GALLERY: 1 kolom di tablet portrait */
+        .gallery-grid {
+          grid-template-columns: 1fr;
+          grid-auto-rows: 200px;
+        }
+      } /* /end 768px */
+
+      /* ──────────────────────────────────────────────────────────────────
+       BREAKPOINT: MOBILE (max-width: 576px)
+       ────────────────────────────────────────────────────────────────── */
+      @media (max-width: 576px) {
+        /* HERO: Padding lebih kecil di HP kecil */
+        #hero {
+          padding: 100px 0 56px;
+        }
+
+        /* HERO HEADLINE: Ukuran terkecil untuk layar HP */
+        .hero-headline {
+          font-size: 2.2rem;
+        }
+
+        .hero-eyebrow {
+          font-size: 0.67rem;
+        }
+
+        /* HERO BUTTONS: Susun vertikal (stack) di layar sangat sempit */
+        .hero-cta {
+          flex-direction: column;
+          gap: 12px !important;
+        }
+        .hero-cta .btn-af-solid,
+        .hero-cta .btn-af-outline {
+          width: 100%;
+          justify-content: center;
+        }
+
+        /* HERO STATS: Wrap dan lebih rapat */
+        .hero-stats {
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+
+        /* SECTION TITLE: Ukuran terkecil di HP */
+        .section-title {
+          font-size: 1.9rem;
+        }
+
+        /* SECTION PADDING: Minimum padding di layar HP */
+        #about,
+        #products,
+        #collection,
+        #testimonials,
+        #contact {
+          padding: 48px 0; /* 48px = batas minimum agar section tidak terlalu padat */
+        }
+
+        /* PRODUCT CARD: Lebih rapat, tidak perlu margin bawah manual
+         (Bootstrap row dengan g-3/g-4 sudah mengatur gap antar card) */
+        .pc-img {
+          height: 200px;
+        }
+
+        /* PRODUCT CARD SPACING: Dikurangi di mobile */
+        .product-card .pc-body {
+          padding: 16px 18px 18px;
+        }
+
+        /* ABOUT IMAGE: Lebih pendek di HP */
+        .about-img-wrap img {
+          height: 250px;
+        }
+
+        /* GALLERY ITEM: Sedikit lebih pendek di HP */
+        .gallery-grid {
+          grid-auto-rows: 180px;
+          gap: 8px;
+        }
+
+        /* TRUST BAR: Susun 2 kolom di HP */
+        .trust-bar {
+          gap: 16px;
+          justify-content: flex-start;
+        }
+
+        /* FOOTER BRAND: Logo footer lebih kecil */
+        .footer-brand {
+          font-size: 1.6rem;
+        }
+
+        /* BACK TO TOP: Sedikit lebih kecil di HP */
+        #backToTop {
+          bottom: 18px;
+          right: 18px;
+          width: 40px;
+          height: 40px;
+          font-size: 0.85rem;
+        }
+      } /* /end 576px */
+    </style>
+  
+<!-- Revised font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--font-display:"Cormorant Garamond",serif;
+--font-body:"Plus Jakarta Sans",sans-serif;
+--radius:12px;
+--section-py:100px;
+}
+body{font-family:var(--font-body)}
+.section-title{line-height:1.2}
+.product-card,.testi-card{border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.05)}
+.product-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.12)}
+.pc-img img,.gallery-item img{transition:transform .6s ease,filter .4s ease}
+.product-card:hover .pc-img img,.gallery-item:hover img{filter:brightness(1.05)}
+.btn-af-solid,.btn-af-outline{border-radius:999px;transition:all .35s ease}
+@media(max-width:992px){
+#hero,#about,#products,#collection,#testimonials,#contact{padding:72px 0}
+.hero-headline{font-size:3.3rem}
+}
+@media(max-width:768px){
+.section-title{font-size:2rem}
+.section-desc,.hero-desc{font-size:.95rem}
+.pc-body{padding:18px}
+}
+@media(max-width:576px){
+.hero-headline{font-size:2.25rem}
+.section-title{font-size:1.8rem}
+.hero-stats{gap:12px}
+.container{padding-left:20px;padding-right:20px}
+}
+</style>
+
+</head>
+
+  <body>
+    <!-- ================================================================
+       SECTION 1 — NAVBAR (STICKY TOP)
+       ────────────────────────────────────────────────────────────────
+       Komponen Bootstrap yang dipakai:
+       • .navbar .navbar-expand-lg .sticky-top  → pondasi navbar
+       • .navbar-toggler + data-bs-toggle        → hamburger mobile
+       • .collapse .navbar-collapse              → menu collapsible
+       ================================================================ -->
+    <nav
+      id="mainNavbar"
+      class="navbar navbar-expand-lg sticky-top"
+      aria-label="Navigasi utama AbdulFashion"
+    >
+      <div class="container">
+        <!-- Logo / Brand -->
+        <a class="af-brand" href="#home" aria-label="AbdulFashion Homepage">
+          <span>Abdul</span>Fashion
+        </a>
+
+        <!-- ── Hamburger Toggle (mobile only) ────────────────────────
+           Bootstrap menangani behavior show/hide secara otomatis
+           via data-bs-toggle="collapse" tanpa JS tambahan          -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMenu"
+          aria-controls="navbarMenu"
+          aria-expanded="false"
+          aria-label="Buka atau tutup menu navigasi"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- ── Menu Items — collapse di mobile, muncul saat toggle ── -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+          <ul
+            class="navbar-nav ms-auto align-items-lg-center gap-lg-1 pt-3 pt-lg-0"
+          >
+            <li class="nav-item">
+              <a class="af-nav-link nav-link is-active" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="af-nav-link nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="af-nav-link nav-link" href="#products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="af-nav-link nav-link" href="#collection">Collection</a>
+            </li>
+            <li class="nav-item">
+              <a class="af-nav-link nav-link" href="#testimonials"
+                >Testimonials</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="af-nav-link nav-link" href="#contact">Contact</a>
+            </li>
+            <!-- CTA Button di Navbar -->
+            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+              <a
+                href="#products"
+                class="btn-af-solid"
+                style="padding: 10px 22px; font-size: 0.72rem"
+              >
+                <i class="fa-solid fa-bag-shopping"></i> Shop Now
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ================================================================
+       SECTION 2 — HERO
+       ────────────────────────────────────────────────────────────────
+       Layout Bootstrap: 2 kolom di desktop (col-lg-6),
+       bertumpuk (1 kolom) di mobile karena Bootstrap breakpoint lg.
+       ================================================================ -->
+    <section id="home">
+      <div id="hero">
+        <div class="container">
+          <div class="row align-items-center g-5">
+            <!-- ── Kolom Teks (kiri di desktop, bawah di mobile) ──────
+               order-lg-1 = kolom ini menjadi kolom pertama di lg+
+               order-2    = default stacking order di mobile (di bawah gambar) -->
+            <div class="col-12 col-lg-6 order-2 order-lg-1">
+              <!-- Label paling atas -->
+              <p class="hero-eyebrow">
+                <span class="dot-pulse"></span>
+                UMKM Fashion Lokal &nbsp;·&nbsp; Est. 2021
+              </p>
+
+              <!-- Headline utama — font Cormorant Garamond serif besar -->
+              <h1 class="hero-headline">
+                Tampil<br />
+                <em>Percaya Diri</em><br />
+                Setiap Hari
+              </h1>
+
+              <!-- Deskripsi brand singkat -->
+              <p class="hero-desc">
+                Koleksi fashion modern berkualitas premium dari pengrajin lokal
+                Indonesia. Dari kasual harian hingga streetwear statement
+                &mdash; kami hadirkan gaya yang berbicara tentang dirimu.
+              </p>
+
+              <!-- Tombol CTA — flex agar sejajar horizontal di desktop -->
+              <div class="d-flex hero-cta gap-3 flex-wrap">
+                <a href="#products" class="btn-af-solid">
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  Shop Now
+                </a>
+                <a href="#collection" class="btn-af-outline">
+                  Explore Koleksi
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+
+              <!-- Statistik mini brand -->
+              <div class="hero-stats">
+                <div>
+                  <div class="hero-stat-val">2.4K+</div>
+                  <div class="hero-stat-lbl">Pelanggan Puas</div>
+                </div>
+                <div>
+                  <div class="hero-stat-val">50+</div>
+                  <div class="hero-stat-lbl">Model Produk</div>
+                </div>
+                <div>
+                  <div class="hero-stat-val">4.9★</div>
+                  <div class="hero-stat-lbl">Rating Rata-rata</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Kolom Gambar (kanan di desktop, atas di mobile) ────
+               order-1 = muncul pertama di mobile (atas teks)        -->
+            <div class="col-12 col-lg-6 order-1 order-lg-2">
+              <div class="hero-img-wrap">
+                <!-- ATURAN GAMBAR: URL langsung dari Unsplash
+                   ?w=800  = lebar gambar 800px
+                   &q=80   = kualitas kompresi 80% (balance kualitas-ukuran file)
+                   loading="eager" = prioritaskan load gambar hero (LCP)       -->
+                <img
+                  src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80"
+                  alt="Model mengenakan outfit fashion modern AbdulFashion"
+                  loading="eager"
+                  width="800"
+                  height="580"
+                />
+
+                <!-- Badge angka mengambang -->
+                <div class="hero-float-card" aria-hidden="true">
+                  <div class="fc-val">50+</div>
+                  <div class="fc-lbl">Model Terbaru</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+       SECTION 3 — ABOUT
+       ================================================================ -->
+    <section id="about">
+      <div class="about-section" style="padding: var(--section-py) 0">
+        <div class="container">
+          <div class="row align-items-center g-5">
+            <!-- Gambar about (kiri) -->
+            <div class="col-12 col-lg-5 reveal">
+              <div class="about-img-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+                  alt="Proses produksi AbdulFashion — jahit bahan premium"
+                  loading="lazy"
+                  width="600"
+                  height="500"
+                />
+              </div>
+            </div>
+
+            <!-- Teks about (kanan) -->
+            <div class="col-12 col-lg-7 reveal">
+              <span class="eyebrow"
+                ><i class="fa-solid fa-circle-dot me-2"></i>Tentang Kami</span
+              >
+              <h2 class="section-title">
+                Mendesain Gaya,<br />Membangun Percaya Diri
+              </h2>
+              <span class="gold-bar"></span>
+
+              <p
+                style="
+                  font-size: 0.94rem;
+                  line-height: 1.9;
+                  margin-bottom: 28px;
+                "
+              >
+                AbdulFashion lahir dari keyakinan bahwa fashion berkualitas
+                tidak harus mahal. Kami adalah UMKM fashion modern yang
+                berdedikasi menghadirkan pakaian premium buatan pengrajin lokal
+                Indonesia dengan harga yang terjangkau untuk semua kalangan.
+              </p>
+
+              <!-- Feature List — keunggulan produk -->
+              <div class="af-feature">
+                <div class="af-feature-icon">
+                  <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div>
+                  <h6>Bahan Premium Ramah Lingkungan</h6>
+                  <p>
+                    Cotton combed 30s dan bahan pilihan yang lembut, adem, dan
+                    tahan lama — nyaman dipakai sepanjang hari.
+                  </p>
+                </div>
+              </div>
+
+              <div class="af-feature">
+                <div class="af-feature-icon">
+                  <i class="fa-solid fa-scissors"></i>
+                </div>
+                <div>
+                  <h6>Jahitan & Finishing Berkualitas Tinggi</h6>
+                  <p>
+                    Setiap produk melewati quality control ketat dengan jahitan
+                    rapi, seam finishing tebal, dan detail presisi.
+                  </p>
+                </div>
+              </div>
+
+              <div class="af-feature">
+                <div class="af-feature-icon">
+                  <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <div>
+                  <h6>Pengiriman Cepat ke Seluruh Indonesia</h6>
+                  <p>
+                    Estimasi 2&ndash;5 hari kerja ke seluruh Indonesia melalui
+                    mitra logistik terpercaya dengan asuransi paket.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+       SECTION 4 — FEATURED PRODUCTS (6 Produk)
+       ────────────────────────────────────────────────────────────────
+       Bootstrap Grid:
+       col-12      → 1 kolom di Mobile  (< 576px)
+       col-md-6    → 2 kolom di Tablet  (≥ 768px)
+       col-lg-4    → 3 kolom di Desktop (≥ 992px)
+       ================================================================ -->
+    <section id="products">
+      <div
+        style="padding: var(--section-py) 0; background: var(--af-warm-white)"
+      >
+        <div class="container">
+          <!-- Section Header -->
+          <div class="text-center mb-5 reveal">
+            <span class="eyebrow"
+              ><i class="fa-solid fa-circle-dot me-2"></i>Produk Unggulan</span
+            >
+            <h2 class="section-title">Koleksi Terpopuler</h2>
+            <span class="gold-bar mx-auto"></span>
+            <p class="section-desc">
+              Temukan produk terlaris AbdulFashion — pilihan terbaik dari kaos,
+              hoodie, jaket, hingga outfit streetwear siap pakai.
+            </p>
+          </div>
+
+          <!-- Product Grid
+             g-4 = gap antar kolom dan baris 1.5rem (Bootstrap gutter)    -->
+          <div class="row g-4">
+            <!-- ── Produk 1: Kaos Premium Oversize ── -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="product-card">
+                <div class="pc-img">
+                  <!-- pc-badge: Label status produk di pojok gambar -->
+                  <span class="pc-badge">Best Seller</span>
+                  <img
+                    src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&q=80"
+                    alt="Kaos Premium Oversize Essential AbdulFashion"
+                    loading="lazy"
+                    width="500"
+                    height="280"
+                  />
+                </div>
+                <div class="pc-body">
+                  <p class="pc-cat">Kaos &middot; Oversize</p>
+                  <h5 class="pc-name">Kaos Premium Oversize Essential</h5>
+                  <div class="pc-price">
+                    Rp 175.000
+                    <s>Rp 220.000</s>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a
+                      href="#"
+                      class="btn-af-solid flex-grow-1"
+                      style="
+                        padding: 10px 14px;
+                        font-size: 0.72rem;
+                        justify-content: center;
+                      "
+                    >
+                      <i class="fa-solid fa-bag-shopping"></i> Beli Sekarang
+                    </a>
+                    <a
+                      href="#"
+                      class="btn-af-outline"
+                      style="padding: 10px 16px; font-size: 0.72rem"
+                      >Detail</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Produk 2: Hoodie Fleece ── -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="product-card">
+                <div class="pc-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1611417833111-284ac6508488?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Hoodie Fleece Warm Series AbdulFashion"
+                    loading="lazy"
+                    width="500"
+                    height="280"
+                  />
+                </div>
+                <div class="pc-body">
+                  <p class="pc-cat">Hoodie &middot; Fleece</p>
+                  <h5 class="pc-name">Hoodie Fleece Warm Series</h5>
+                  <div class="pc-price">Rp 299.000</div>
+                  <div class="d-flex gap-2">
+                    <a
+                      href="#"
+                      class="btn-af-solid flex-grow-1"
+                      style="
+                        padding: 10px 14px;
+                        font-size: 0.72rem;
+                        justify-content: center;
+                      "
+                    >
+                      <i class="fa-solid fa-bag-shopping"></i> Beli Sekarang
+                    </a>
+                    <a
+                      href="#"
+                      class="btn-af-outline"
+                      style="padding: 10px 16px; font-size: 0.72rem"
+                      >Detail</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Produk 3: Jaket Bomber ── -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="product-card">
+                <div class="pc-img">
+                  <span class="pc-badge new-arrival">New Arrival</span>
+                  <img
+                    src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&q=80"
+                    alt="Jaket Bomber Urban Street AbdulFashion"
+                    loading="lazy"
+                    width="500"
+                    height="280"
+                  />
+                </div>
+                <div class="pc-body">
+                  <p class="pc-cat">Jaket &middot; Bomber</p>
+                  <h5 class="pc-name">Jaket Bomber Urban Street</h5>
+                  <div class="pc-price">
+                    Rp 389.000
+                    <s>Rp 450.000</s>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a
+                      href="#"
+                      class="btn-af-solid flex-grow-1"
+                      style="
+                        padding: 10px 14px;
+                        font-size: 0.72rem;
+                        justify-content: center;
+                      "
+                    >
+                      <i class="fa-solid fa-bag-shopping"></i> Beli Sekarang
+                    </a>
+                    <a
+                      href="#"
+                      class="btn-af-outline"
+                      style="padding: 10px 16px; font-size: 0.72rem"
+                      >Detail</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Produk 4: Celana Cargo ── -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="product-card">
+                <div class="pc-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80"
+                    alt="Celana Cargo Tactical Slim AbdulFashion"
+                    loading="lazy"
+                    width="500"
+                    height="280"
+                  />
+                </div>
+                <div class="pc-body">
+                  <p class="pc-cat">Celana &middot; Cargo</p>
+                  <h5 class="pc-name">Celana Cargo Tactical Slim</h5>
+                  <div class="pc-price">Rp 259.000</div>
+                  <div class="d-flex gap-2">
+                    <a
+                      href="#"
+                      class="btn-af-solid flex-grow-1"
+                      style="
+                        padding: 10px 14px;
+                        font-size: 0.72rem;
+                        justify-content: center;
+                      "
+                    >
+                      <i class="fa-solid fa-bag-shopping"></i> Beli Sekarang
+                    </a>
+                    <a
+                      href="#"
+                      class="btn-af-outline"
+                      style="padding: 10px 16px; font-size: 0.72rem"
+                      >Detail</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Produk 5: Outfit Casual Set ── -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="product-card">
+                <div class="pc-img">
+                  <span class="pc-badge on-sale">Sale 20%</span>
+                  <img
+                    src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80"
+                    alt="Outfit Casual Daily Wear Set AbdulFashion"
+                    loading="lazy"
+                    width="500"
+                    height="280"
+                  />
+                </div>
+                <div class="pc-body">
+                  <p class="pc-cat">Set &middot; Casual</p>
+                  <h5 class="pc-name">Outfit Casual Daily Wear Set</h5>
+                  <div class="pc-price">
+                    Rp 320.000
+                    <s>Rp 400.000</s>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a
+                      href="#"
+                      class="btn-af-solid flex-grow-1"
+                      style="
+                        padding: 10px 14px;
+                        font-size: 0.72rem;
+                        justify-content: center;
+                      "
+                    >
+                      <i class="fa-solid fa-bag-shopping"></i> Beli Sekarang
+                    </a>
+                    <a
+                      href="#"
+                      class="btn-af-outline"
+                      style="padding: 10px 16px; font-size: 0.72rem"
+                      >Detail</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Produk 6: Streetwear Signature ── -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="product-card">
+                <div class="pc-img">
+                  <img
+                    src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500&q=80"
+                    alt="Streetwear Edition Signature Set AbdulFashion"
+                    loading="lazy"
+                    width="500"
+                    height="280"
+                  />
+                </div>
+                <div class="pc-body">
+                  <p class="pc-cat">Streetwear &middot; Premium</p>
+                  <h5 class="pc-name">Streetwear Edition Signature</h5>
+                  <div class="pc-price">Rp 499.000</div>
+                  <div class="d-flex gap-2">
+                    <a
+                      href="#"
+                      class="btn-af-solid flex-grow-1"
+                      style="
+                        padding: 10px 14px;
+                        font-size: 0.72rem;
+                        justify-content: center;
+                      "
+                    >
+                      <i class="fa-solid fa-bag-shopping"></i> Beli Sekarang
+                    </a>
+                    <a
+                      href="#"
+                      class="btn-af-outline"
+                      style="padding: 10px 16px; font-size: 0.72rem"
+                      >Detail</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /row produk -->
+
+          <!-- Tombol lihat semua produk -->
+          <div class="text-center mt-5 reveal">
+            <a href="#" class="btn-af-outline" style="padding: 14px 40px">
+              Lihat Semua Produk
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+       SECTION 5 — NEW COLLECTION / GALLERY
+       ────────────────────────────────────────────────────────────────
+       CSS Grid kustom dengan hover effect zoom + overlay.
+       Layout asimetris: item pertama span 2 baris (featured look).
+       ================================================================ -->
+    <section id="collection">
+      <div style="padding: var(--section-py) 0; background: var(--af-white)">
+        <div class="container">
+          <div class="text-center mb-5 reveal">
+            <span class="eyebrow"
+              ><i class="fa-solid fa-circle-dot me-2"></i>Koleksi Terbaru</span
+            >
+            <h2 class="section-title">New Arrivals 2025</h2>
+            <span class="gold-bar mx-auto"></span>
+            <p class="section-desc">
+              Jelajahi lookbook terbaru AbdulFashion — inspirasi gaya dari
+              streetwear urban hingga kasual minimalis yang selalu kekinian.
+            </p>
+          </div>
+
+          <!-- Gallery Grid — CSS Grid kustom (bukan Bootstrap Grid)
+             Mendemonstrasikan bahwa kita bisa bebas memilih metode
+             layout yang paling sesuai untuk kebutuhan tertentu.       -->
+          <div class="gallery-grid reveal">
+            <!-- Item 1: Featured — span 2 baris secara vertikal -->
+            <div class="gallery-item">
+              <img
+                src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=700&q=80"
+                alt="Lookbook streetwear AbdulFashion 2025"
+                loading="lazy"
+              />
+              <div class="gallery-overlay" aria-hidden="true">
+                <div class="gallery-overlay-icon">
+                  <i class="fa-solid fa-expand"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="gallery-item">
+              <img
+                src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=80"
+                alt="Outfit kasual elegan AbdulFashion"
+                loading="lazy"
+              />
+              <div class="gallery-overlay" aria-hidden="true">
+                <div class="gallery-overlay-icon">
+                  <i class="fa-solid fa-expand"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="gallery-item">
+              <img
+                src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"
+                alt="Koleksi outfit wanita AbdulFashion"
+                loading="lazy"
+              />
+              <div class="gallery-overlay" aria-hidden="true">
+                <div class="gallery-overlay-icon">
+                  <i class="fa-solid fa-expand"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="gallery-item">
+              <img
+                src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&q=80"
+                alt="Fashion outfit street style modern"
+                loading="lazy"
+              />
+              <div class="gallery-overlay" aria-hidden="true">
+                <div class="gallery-overlay-icon">
+                  <i class="fa-solid fa-expand"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="gallery-item">
+              <img
+                src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80"
+                alt="Gaya berbelanja fashion modern AbdulFashion"
+                loading="lazy"
+              />
+              <div class="gallery-overlay" aria-hidden="true">
+                <div class="gallery-overlay-icon">
+                  <i class="fa-solid fa-expand"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /gallery-grid -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+       SECTION 6 — TESTIMONIALS (3 Ulasan)
+       ================================================================ -->
+    <section id="testimonials">
+      <div
+        style="padding: var(--section-py) 0; background: var(--af-warm-white)"
+      >
+        <div class="container">
+          <div class="text-center mb-5 reveal">
+            <span class="eyebrow"
+              ><i class="fa-solid fa-circle-dot me-2"></i>Testimoni
+              Pelanggan</span
+            >
+            <h2 class="section-title">Apa Kata Mereka?</h2>
+            <span class="gold-bar mx-auto"></span>
+            <p class="section-desc">
+              Ribuan pelanggan sudah merasakan kualitas AbdulFashion. Ini adalah
+              cerita nyata dari mereka.
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <!-- Testimoni 1 -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="testi-card">
+                <div class="testi-stars" aria-label="Rating bintang 5 dari 5">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testi-text">
+                  "Kaos oversize-nya premium banget! Bahan katunnya adem,
+                  jahitan rapi, dan warnanya nggak pudar meski udah dicuci
+                  berkali-kali. Definitely re-order lagi! Highly recommended."
+                </p>
+                <div class="testi-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80"
+                    alt="Foto profil Rina Kusumawati"
+                    class="testi-avatar"
+                    loading="lazy"
+                    width="42"
+                    height="42"
+                  />
+                  <div>
+                    <p class="testi-name">Rina Kusumawati</p>
+                    <p class="testi-loc">Jakarta &middot; Pelanggan Setia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimoni 2 -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="testi-card">
+                <div class="testi-stars" aria-label="Rating bintang 5 dari 5">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testi-text">
+                  "Hoodie fleece-nya juara! Hangat tapi nggak gerah, fit-nya pas
+                  badan. Respons admin juga super cepat. AbdulFashion emang
+                  nggak pernah mengecewakan. Bakal jadi langganan tetap nih!"
+                </p>
+                <div class="testi-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80"
+                    alt="Foto profil Budi Santoso"
+                    class="testi-avatar"
+                    loading="lazy"
+                    width="42"
+                    height="42"
+                  />
+                  <div>
+                    <p class="testi-name">Budi Santoso</p>
+                    <p class="testi-loc">Bandung &middot; Verified Buyer</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimoni 3 -->
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+              <div class="testi-card">
+                <div class="testi-stars" aria-label="Rating bintang 4.5 dari 5">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p class="testi-text">
+                  "Streetwear edition-nya keren parah, banyak yang nanya saya
+                  beli di mana. Packaging-nya aesthetic banget, cocok dijadikan
+                  hadiah. Puas banget, pasti order lagi!"
+                </p>
+                <div class="testi-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80"
+                    alt="Foto profil Maya Syahputri"
+                    class="testi-avatar"
+                    loading="lazy"
+                    width="42"
+                    height="42"
+                  />
+                  <div>
+                    <p class="testi-name">Maya Syahputri</p>
+                    <p class="testi-loc">
+                      Surabaya &middot; Fashion Enthusiast
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /row testimoni -->
+
+          <!-- Trust Bar — indikator kepercayaan brand -->
+          <div class="trust-bar reveal">
+            <div class="trust-item">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Garansi Uang Kembali</span>
+            </div>
+            <div class="trust-item">
+              <i class="fa-solid fa-truck-fast"></i>
+              <span>Gratis Ongkir &gt; Rp 300K</span>
+            </div>
+            <div class="trust-item">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span>Retur 7 Hari</span>
+            </div>
+            <div class="trust-item">
+              <i class="fa-solid fa-lock"></i>
+              <span>Pembayaran 100% Aman</span>
+            </div>
+            <div class="trust-item">
+              <i class="fa-solid fa-headset"></i>
+              <span>CS 7 Hari Seminggu</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+       SECTION 7 — CONTACT
+       ────────────────────────────────────────────────────────────────
+       Formulir Bootstrap (Nama, Email, Subjek, Pesan, Tombol Kirim).
+       Validasi dasar menggunakan Vanilla JS di bagian <script>.
+       ================================================================ -->
+    <section id="contact">
+      <div style="padding: var(--section-py) 0; background: var(--af-white)">
+        <div class="container">
+          <div class="text-center mb-5 reveal">
+            <span class="eyebrow"
+              ><i class="fa-solid fa-circle-dot me-2"></i>Hubungi Kami</span
+            >
+            <h2 class="section-title">Ada Pertanyaan?</h2>
+            <span class="gold-bar mx-auto"></span>
+            <p class="section-desc">
+              Tim AbdulFashion siap membantu kamu 7 hari seminggu. Jangan ragu
+              untuk menghubungi kami kapan saja.
+            </p>
+          </div>
+
+          <div class="row g-5 align-items-start">
+            <!-- Info Kontak (kiri) -->
+            <div class="col-12 col-lg-5 reveal">
+              <div class="contact-info-item">
+                <div class="ci-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="ci-text">
+                  <h6>Alamat Toko</h6>
+                  <p>
+                    Jl. Mode Raya No. 88, Blok Fashion<br />Medan, Sumatera
+                    Utara 20111
+                  </p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="ci-icon"><i class="fa-solid fa-phone"></i></div>
+                <div class="ci-text">
+                  <h6>Nomor WhatsApp</h6>
+                  <p>+62 812-3456-7890</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="ci-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div class="ci-text">
+                  <h6>Email</h6>
+                  <p>hello@abdulfashion.co.id</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="ci-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="ci-text">
+                  <h6>Jam Operasional</h6>
+                  <p>
+                    Senin – Sabtu: 09.00 – 21.00 WIB<br />Minggu: 10.00 – 17.00
+                    WIB
+                  </p>
+                </div>
+              </div>
+
+              <!-- Sosial Media -->
+              <div class="mt-3">
+                <p
+                  style="
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: var(--af-heading);
+                    margin-bottom: 12px;
+                  "
+                >
+                  Follow Us
+                </p>
+                <div class="contact-social d-flex gap-2">
+                  <a href="#" aria-label="Instagram AbdulFashion"
+                    ><i class="fa-brands fa-instagram"></i
+                  ></a>
+                  <a href="#" aria-label="TikTok AbdulFashion"
+                    ><i class="fa-brands fa-tiktok"></i
+                  ></a>
+                  <a href="#" aria-label="WhatsApp AbdulFashion"
+                    ><i class="fa-brands fa-whatsapp"></i
+                  ></a>
+                  <a href="#" aria-label="Shopee AbdulFashion"
+                    ><i class="fa-solid fa-store"></i
+                  ></a>
+                  <a href="#" aria-label="Tokopedia AbdulFashion"
+                    ><i class="fa-brands fa-facebook-f"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Formulir Kontak (kanan) -->
+            <div class="col-12 col-lg-7 reveal">
+              <!-- novalidate: kita pakai validasi custom JS, bukan browser default -->
+              <form class="af-form" id="contactForm" novalidate>
+                <div class="row g-3">
+                  <!-- Nama -->
+                  <div class="col-12 col-sm-6">
+                    <label for="inputNama" class="form-label"
+                      >Nama Lengkap <span style="color: #c0392b">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputNama"
+                      placeholder="Masukkan nama lengkap Anda"
+                      required
+                      autocomplete="name"
+                    />
+                  </div>
+
+                  <!-- Email -->
+                  <div class="col-12 col-sm-6">
+                    <label for="inputEmail" class="form-label"
+                      >Alamat Email <span style="color: #c0392b">*</span></label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="inputEmail"
+                      placeholder="contoh@email.com"
+                      required
+                      autocomplete="email"
+                    />
+                  </div>
+
+                  <!-- Subjek -->
+                  <div class="col-12">
+                    <label for="inputSubjek" class="form-label">Subjek</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputSubjek"
+                      placeholder="Topik pesan Anda (opsional)"
+                    />
+                  </div>
+
+                  <!-- Pesan -->
+                  <div class="col-12">
+                    <label for="inputPesan" class="form-label"
+                      >Pesan <span style="color: #c0392b">*</span></label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="inputPesan"
+                      rows="5"
+                      placeholder="Tulis pesan Anda di sini..."
+                      required
+                    ></textarea>
+                  </div>
+
+                  <!-- Alert area — diisi dan ditampilkan oleh JavaScript -->
+                  <div
+                    class="col-12"
+                    id="formAlert"
+                    style="display: none"
+                  ></div>
+
+                  <!-- Tombol Kirim -->
+                  <div class="col-12">
+                    <button
+                      type="submit"
+                      class="btn-af-solid w-100"
+                      style="justify-content: center; padding: 14px"
+                    >
+                      <i class="fa-solid fa-paper-plane"></i>
+                      Kirim Pesan
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+       SECTION 8 — FOOTER
+       ────────────────────────────────────────────────────────────────
+       Copyright, link sosial media, alamat toko fiktif, info kontak.
+       Bootstrap Grid: 4 kolom di desktop, 2 di tablet, 1 di mobile.
+       ================================================================ -->
+    <footer id="mainFooter">
+      <div class="container">
+        <div class="row g-5">
+          <!-- Kolom 1: Brand Info & Deskripsi -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="footer-brand"><span>Abdul</span>Fashion</div>
+            <p class="footer-desc">
+              UMKM Fashion Modern yang menghadirkan koleksi kasual, hoodie,
+              jaket, dan streetwear berkualitas premium dengan harga terjangkau
+              untuk semua kalangan.
+            </p>
+            <!-- Sosial media icons footer -->
+            <div class="footer-social">
+              <a href="#" aria-label="Instagram"
+                ><i class="fa-brands fa-instagram"></i
+              ></a>
+              <a href="#" aria-label="TikTok"
+                ><i class="fa-brands fa-tiktok"></i
+              ></a>
+              <a href="#" aria-label="Twitter/X"
+                ><i class="fa-brands fa-x-twitter"></i
+              ></a>
+              <a href="#" aria-label="Facebook"
+                ><i class="fa-brands fa-facebook-f"></i
+              ></a>
+              <a href="#" aria-label="WhatsApp"
+                ><i class="fa-brands fa-whatsapp"></i
+              ></a>
+            </div>
+          </div>
+
+          <!-- Kolom 2: Navigasi Cepat -->
+          <div class="col-6 col-md-3 col-lg-2">
+            <h6 class="footer-heading">Navigasi</h6>
+            <ul class="footer-links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#products">Products</a></li>
+              <li><a href="#collection">Collection</a></li>
+              <li><a href="#testimonials">Testimonials</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Kolom 3: Kategori Produk -->
+          <div class="col-6 col-md-3 col-lg-2">
+            <h6 class="footer-heading">Produk</h6>
+            <ul class="footer-links">
+              <li><a href="#">Kaos Premium</a></li>
+              <li><a href="#">Hoodie &amp; Sweater</a></li>
+              <li><a href="#">Jaket &amp; Bomber</a></li>
+              <li><a href="#">Celana</a></li>
+              <li><a href="#">Outfit Set</a></li>
+              <li><a href="#">Streetwear</a></li>
+            </ul>
+          </div>
+
+          <!-- Kolom 4: Info Toko Lengkap -->
+          <div class="col-12 col-lg-4">
+            <h6 class="footer-heading">Info Toko</h6>
+            <div class="footer-info-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <span
+                >Jl. Mode Raya No. 88, Blok Fashion,<br />Medan, Sumatera Utara
+                20111</span
+              >
+            </div>
+            <div class="footer-info-item">
+              <i class="fa-solid fa-phone"></i>
+              <span>+62 812-3456-7890</span>
+            </div>
+            <div class="footer-info-item">
+              <i class="fa-solid fa-envelope"></i>
+              <span>hello@abdulfashion.co.id</span>
+            </div>
+            <div class="footer-info-item">
+              <i class="fa-solid fa-store"></i>
+              <span>Shopee &amp; Tokopedia: @AbdulFashion</span>
+            </div>
+            <div class="footer-info-item">
+              <i class="fa-solid fa-clock"></i>
+              <span>Buka Setiap Hari: 09.00 – 21.00 WIB</span>
+            </div>
+          </div>
+        </div>
+        <!-- /row footer -->
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2"
+          >
+            <p>&copy; 2025 AbdulFashion. Semua hak cipta dilindungi.</p>
+            <p>
+              Dibuat dengan
+              <i class="fa-solid fa-heart" style="color: var(--af-gold)"></i>
+              oleh <strong>Kelompok 3 &mdash; PBWD</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================================================================
+       TOMBOL BACK TO TOP
+       Tersembunyi secara default — JavaScript mengontrol visibilitas
+       ================================================================ -->
+    <button id="backToTop" aria-label="Kembali ke bagian atas halaman">
+      <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+    <!-- ================================================================
+       BOOTSTRAP 5 JS BUNDLE (via CDN)
+       ────────────────────────────────────────────────────────────────
+       WAJIB di-load SEBELUM script custom kita.
+       Bundle sudah termasuk Popper.js (untuk navbar collapse, dll.)
+       ================================================================ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ================================================================
+       ██╗   ██╗ █████╗ ███╗   ██╗██╗██╗     ██╗      █████╗     ██╗███████╗
+       ██║   ██║██╔══██╗████╗  ██║██║██║     ██║     ██╔══██╗   ██║██╔════╝
+       ██║   ██║███████║██╔██╗ ██║██║██║     ██║     ███████║   ██║███████╗
+       ╚██╗ ██╔╝██╔══██║██║╚██╗██║██║██║     ██║     ██╔══██║   ██║╚════██║
+        ╚████╔╝ ██║  ██║██║ ╚████║██║███████╗███████╗██║  ██║██╗██║███████║
+       ================================================================
+       CUSTOM VANILLA JAVASCRIPT
+       ────────────────────────────────────────────────────────────────
+       Berisi: Navbar scroll effect, Back-to-Top button,
+               Smooth scrolling manual, Scroll-reveal animation,
+               Active nav link on scroll, Contact form validation.
+       ================================================================ -->
+    <script>
+      // ================================================================
+      // IIFE (Immediately Invoked Function Expression)
+      // Membungkus semua kode dalam fungsi agar variabel tidak bocor
+      // ke scope global (mencegah konflik dengan library lain).
+      // ================================================================
+      (function () {
+        "use strict";
+
+        // ──────────────────────────────────────────────────────────────
+        // 1. REFERENSI ELEMEN DOM
+        // Ambil semua elemen yang akan kita manipulasi sekali saja
+        // (lebih efisien daripada query DOM berulang kali di event loop)
+        // ──────────────────────────────────────────────────────────────
+        var navbar = document.getElementById("mainNavbar");
+        var backToTopBtn = document.getElementById("backToTop");
+        var contactForm = document.getElementById("contactForm");
+        var formAlert = document.getElementById("formAlert");
+        var navLinks = document.querySelectorAll(".af-nav-link");
+        var sections = document.querySelectorAll("section[id]");
+
+        // ──────────────────────────────────────────────────────────────
+        // 2. NAVBAR SCROLL EFFECT
+        // ──────────────────────────────────────────────────────────────
+        // Saat user scroll, periksa posisi scroll (window.scrollY).
+        // Jika > 80px, tambahkan class 'is-scrolled' pada navbar.
+        // Class ini memicu style CSS: padding lebih kecil + shadow muncul.
+        // ──────────────────────────────────────────────────────────────
+        function handleNavbarScroll() {
+          if (window.scrollY > 80) {
+            navbar.classList.add("is-scrolled");
+          } else {
+            navbar.classList.remove("is-scrolled");
+          }
+        }
+
+        // ──────────────────────────────────────────────────────────────
+        // 3. BACK TO TOP BUTTON
+        // ──────────────────────────────────────────────────────────────
+        // Tampilkan tombol saat scroll > 400px.
+        // Sembunyikan saat kembali ke atas.
+        // ──────────────────────────────────────────────────────────────
+        function handleBackToTop() {
+          if (window.scrollY > 400) {
+            backToTopBtn.classList.add("is-visible");
+          } else {
+            backToTopBtn.classList.remove("is-visible");
+          }
+        }
+
+        // Klik tombol → scroll halus ke atas
+        if (backToTopBtn) {
+          backToTopBtn.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
+
+        // ──────────────────────────────────────────────────────────────
+        // 4. ACTIVE NAV LINK SAAT SCROLL
+        // ──────────────────────────────────────────────────────────────
+        // Saat user scroll, deteksi section mana yang sedang terlihat.
+        // Update class 'is-active' pada nav-link yang sesuai.
+        // Ini memberi feedback visual tentang posisi user di halaman.
+        // ──────────────────────────────────────────────────────────────
+        function handleActiveNavLink() {
+          var scrollPos = window.scrollY + navbar.offsetHeight + 30;
+          var currentId = "";
+
+          sections.forEach(function (section) {
+            if (section.offsetTop <= scrollPos) {
+              currentId = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach(function (link) {
+            link.classList.remove("is-active");
+            // Bandingkan href link dengan id section saat ini
+            if (link.getAttribute("href") === "#" + currentId) {
+              link.classList.add("is-active");
+            }
+          });
+        }
+
+        // ──────────────────────────────────────────────────────────────
+        // 5. GABUNGKAN SEMUA HANDLER KE SATU SCROLL EVENT
+        // ──────────────────────────────────────────────────────────────
+        // Lebih efisien daripada addEventListener('scroll') berkali-kali
+        // ──────────────────────────────────────────────────────────────
+        window.addEventListener(
+          "scroll",
+          function () {
+            handleNavbarScroll();
+            handleBackToTop();
+            handleActiveNavLink();
+          },
+          { passive: true },
+        ); // passive:true → browser tidak menunggu kode kita selesai
+
+        // ──────────────────────────────────────────────────────────────
+        // 6. SMOOTH SCROLL UNTUK ANCHOR LINKS
+        // ──────────────────────────────────────────────────────────────
+        // Menangkap semua <a href="#..."> dan mengganti perilaku
+        // default (jump langsung) dengan smooth scroll kustom.
+        //
+        // Kenapa tidak hanya pakai CSS scroll-behavior: smooth?
+        // Karena kita perlu OFFSET untuk navbar sticky — tanpanya
+        // konten section tertutup oleh navbar.
+        // ──────────────────────────────────────────────────────────────
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+          anchor.addEventListener("click", function (e) {
+            var targetId = this.getAttribute("href");
+
+            // Abaikan link kosong "#"
+            if (targetId === "#") return;
+
+            var targetEl = document.querySelector(targetId);
+            if (!targetEl) return;
+
+            e.preventDefault(); // Cegah perilaku lompat default browser
+
+            // Hitung posisi scroll dengan offset tinggi navbar
+            var navH = navbar.offsetHeight;
+            var elTop = targetEl.getBoundingClientRect().top + window.scrollY;
+            var target = elTop - navH - 12; // -12px breathing room
+
+            window.scrollTo({ top: target, behavior: "smooth" });
+
+            // ── Tutup hamburger menu mobile jika sedang terbuka ──────
+            // Bootstrap menyimpan instance Collapse pada elemen,
+            // kita ambil instance tersebut dan panggil .hide()
+            var navbarCollapse = document.getElementById("navbarMenu");
+            if (navbarCollapse && navbarCollapse.classList.contains("show")) {
+              var bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+              if (bsCollapse) bsCollapse.hide();
+            }
+          });
+        });
+
+        // ──────────────────────────────────────────────────────────────
+        // 7. SCROLL REVEAL ANIMATION (IntersectionObserver)
+        // ──────────────────────────────────────────────────────────────
+        // IntersectionObserver adalah API modern yang lebih efisien
+        // dibanding mengecek posisi elemen di setiap scroll event.
+        //
+        // Cara kerja:
+        // 1. Daftarkan semua elemen .reveal ke observer
+        // 2. Observer memantau kapan elemen masuk ke viewport
+        // 3. Saat terlihat 10% → tambahkan class .revealed
+        // 4. Class .revealed memicu animasi CSS (opacity + translateY)
+        // ──────────────────────────────────────────────────────────────
+        var revealObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("revealed");
+                // Berhenti mengamati setelah animasi selesai
+                // → hemat memori dan CPU
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1, // Trigger saat 10% elemen terlihat
+            rootMargin: "0px 0px -50px 0px", // Trigger sedikit sebelum masuk viewport penuh
+          },
+        );
+
+        // Daftarkan semua elemen dengan class .reveal
+        document.querySelectorAll(".reveal").forEach(function (el) {
+          revealObserver.observe(el);
+        });
+
+        // Fallback: jika browser tidak mendukung IntersectionObserver
+        // (Browser lama seperti IE11) → langsung tampilkan semua elemen
+        if (!("IntersectionObserver" in window)) {
+          document.querySelectorAll(".reveal").forEach(function (el) {
+            el.classList.add("revealed");
+          });
+        }
+
+        // ──────────────────────────────────────────────────────────────
+        // 8. CONTACT FORM VALIDATION & SUBMISSION
+        // ──────────────────────────────────────────────────────────────
+        // Menangkap event submit, memvalidasi input, dan menampilkan
+        // feedback ke pengguna tanpa reload halaman.
+        // ──────────────────────────────────────────────────────────────
+
+        // Fungsi helper: tampilkan pesan alert di dalam form
+        function showAlert(message, type) {
+          // type: 'error' | 'success'
+          var color =
+            type === "success"
+              ? "rgba(201,168,76,0.12)" // emas transparan
+              : "rgba(192,57,43,0.08)"; // merah transparan
+          var textColor =
+            type === "success" ? "var(--af-gold-dark)" : "#c0392b";
+          var icon =
+            type === "success"
+              ? '<i class="fa-solid fa-circle-check me-2"></i>'
+              : '<i class="fa-solid fa-triangle-exclamation me-2"></i>';
+
+          formAlert.innerHTML = icon + message;
+          formAlert.style.cssText =
+            "display:block; padding:12px 16px; border-radius:4px; font-size:0.85rem;" +
+            "background:" +
+            color +
+            "; color:" +
+            textColor +
+            ";" +
+            "border: 1px solid " +
+            (type === "success" ? "var(--af-gold)" : "#c0392b") +
+            ";";
+        }
+
+        if (contactForm) {
+          contactForm.addEventListener("submit", function (e) {
+            e.preventDefault(); // Cegah reload halaman
+
+            // Ambil nilai dari setiap field
+            var nama = document.getElementById("inputNama").value.trim();
+            var email = document.getElementById("inputEmail").value.trim();
+            var pesan = document.getElementById("inputPesan").value.trim();
+
+            // ── Validasi 1: Field wajib tidak boleh kosong ──────────
+            if (!nama || !email || !pesan) {
+              showAlert(
+                "Mohon isi semua field yang wajib diisi (Nama, Email, dan Pesan).",
+                "error",
+              );
+              return; // Hentikan eksekusi, jangan lanjutkan
+            }
+
+            // ── Validasi 2: Format email menggunakan Regex ──────────
+            // Regex ini memeriksa pola: sesuatu@sesuatu.sesuatu
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+              showAlert(
+                "Format email tidak valid. Contoh yang benar: nama@domain.com",
+                "error",
+              );
+              return;
+            }
+
+            // ── Validasi 3: Nama minimal 2 karakter ─────────────────
+            if (nama.length < 2) {
+              showAlert(
+                "Nama terlalu pendek. Masukkan nama lengkap Anda.",
+                "error",
+              );
+              return;
+            }
+
+            // ── Simulasi pengiriman berhasil ─────────────────────────
+            // Dalam proyek nyata: ini akan memanggil fetch() ke backend
+            showAlert(
+              "Pesan berhasil dikirim! Tim AbdulFashion akan menghubungi Anda dalam 1&times;24 jam.",
+              "success",
+            );
+            contactForm.reset(); // Kosongkan semua field form
+
+            // Sembunyikan alert setelah 6 detik
+            setTimeout(function () {
+              formAlert.style.display = "none";
+            }, 6000);
+          });
+        }
+
+        // ──────────────────────────────────────────────────────────────
+        // 9. INITIAL STATE CHECK
+        // ──────────────────────────────────────────────────────────────
+        // Jalankan pengecekan awal saat halaman selesai dimuat,
+        // karena user mungkin me-refresh di tengah halaman.
+        // ──────────────────────────────────────────────────────────────
+        handleNavbarScroll();
+        handleBackToTop();
+        handleActiveNavLink();
+      })(); // End IIFE
+    </script>
+  </body>
+</html>
